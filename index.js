@@ -1,23 +1,50 @@
+/*
+	Ioana Bostan 03/05/2019
+*/
+
 function run() {
-	
-	first_operand = document.getElementById('first').value;
-	second_operand = document.getElementById('second').value;
-	third_operand = document.getElementById('third').value;
-	fourth_operand = document.getElementById('fourth').value;
+	//constants for info messages
+	const ERROR_MSG = "Invalid input";
+	const RESULT_INFO = "No result";
+	const ERROR_INFO = "No error";
 
-	if (isInteger(first_operand) && isInteger(second_operand) && isInteger(third_operand) && isInteger(fourth_operand)) {
-		result = parseInt(first_operand) + parseInt(second_operand) + parseInt(third_operand)  * parseInt(fourth_operand) ;
-		document.querySelectorAll('span')[1].innerHTML = parseInt(result);
-		document.querySelectorAll('span')[0].innerHTML = 'no error';
-	} else {
-		document.querySelectorAll('span')[0].innerHTML = 'It seems like at least one of your operand is not an integer number or begins with a zero';
-		document.querySelectorAll('span')[1].innerHTML = 'no result';
+	const row_mt5 = document.getElementsByClassName("row mt-5");
+	const col = row_mt5[0].getElementsByClassName("col");
+	const spans = document.querySelectorAll('span')
+	
+	var operands = [];
+
+	//I collected operands as they come
+	for (var i = 0; i < col.length; i += 2) {
+		operands.push(col[i].getElementsByTagName("input")[0].value)
 	}
-	
+
+	const int_operands = operands.map(operand => parseInt(operand));
+
+	//check if input can be converted to an integer number
+	const isInteger = (operand) => {
+		return Number.isInteger(+operand);
+	}
+
+	//check if some NaN had passed
+	const isNotNaN = (operand) => {
+		return !isNaN(operand);
+	}
+
+	if (operands.every(isInteger)) {
+		if (int_operands.every(isNotNaN)) {
+			result = int_operands[0] + int_operands[1] + int_operands[2]  * int_operands[3];
+			spans[1].innerHTML = result;
+			spans[0].innerHTML = ERROR_INFO;
+		} else { //when one of your input is 1 or more spaces
+			spans[0].innerHTML = ERROR_MSG;
+			spans[1].innerHTML = RESULT_INFO;
+		}
+	} else {
+		spans[0].innerHTML = ERROR_MSG;
+		spans[1].innerHTML = RESULT_INFO;
+	}
 }
 
-function isInteger(number) {
-	var regex = /^(\s?[+-]?[1-9]\d*\s?|0)$/;
-	return number.match(regex);
-}
+
 
