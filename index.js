@@ -8,18 +8,17 @@ function run() {
 	const RESULT_INFO = "No result";
 	const ERROR_INFO = "No error";
 
-	const row_mt5 = document.getElementsByClassName("row mt-5");
-	const col = row_mt5[0].getElementsByClassName("col");
+	const inputContainer = document.getElementsByClassName("row mt-5")[0].getElementsByClassName("col");
 	const spans = document.querySelectorAll('span')
 	
 	var operands = [];
 
 	//I collected operands as they come
-	for (var i = 0; i < col.length; i += 2) {
-		operands.push(col[i].getElementsByTagName("input")[0].value)
+	for (var i = 0; i < inputContainer.length; i += 2) {
+		operands.push(inputContainer[i].getElementsByTagName("input")[0].value)
 	}
 
-	const int_operands = operands.map(operand => parseInt(operand));
+	const intOperands = operands.map(operand => parseInt(operand));
 
 	//check if input can be converted to an integer number
 	const isInteger = (operand) => {
@@ -32,8 +31,8 @@ function run() {
 	}
 
 	if (operands.every(isInteger)) {
-		if (int_operands.every(isNotNaN)) {
-			result = int_operands[0] + int_operands[1] + int_operands[2]  * int_operands[3];
+		if (intOperands.every(isNotNaN)) {
+			result = intOperands[0] + intOperands[1] + intOperands[2]  * intOperands[3];
 			spans[1].innerHTML = result;
 			spans[0].innerHTML = ERROR_INFO;
 		} else { //when one of your input is 1 or more spaces
